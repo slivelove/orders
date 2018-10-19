@@ -1,19 +1,21 @@
 package cn.chinaunicom.srigz.orders.Entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.math.BigInteger;
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
-public class OrderInfo {
+@NoArgsConstructor
+public class OrderInfo implements Serializable {
+    private static final long serialVersionUID = 1063821955023696541L;
+
     @Id
-    @GeneratedValue
     private String orderId;
     private String sourceId;
     private String serialNo;
@@ -24,19 +26,33 @@ public class OrderInfo {
     private String goodsSku;
     private String orderProvincCode;
     private String orderCityCode;
-    private String flowId;
+    private String flowNodeCode;
     private Integer status;
-    private BigInteger createUserId;
+    private Long createUserId;
+    @Column(name = "create_dt", columnDefinition = "DATETIME")
     private Date createDt;
-    private BigInteger opeUserId;
+    @Column(name = "update_dt", columnDefinition = "DATETIME")
     private Date updateDt;
     private String visibleStatus;
-    private BigInteger lockUserId;
+    private Long lockUserId;
     private String lockUserName;
+    @Column(name = "claim_dt", columnDefinition = "DATETIME")
     private Date claimDt;
-
-    public OrderInfo() {
-    }
-
-
+    private Integer verifyFlag;
+    private String createUserNo;
+    private String createUserName;
+    private Long operUserId;
+    private String operUserName;
+    private Long amount;
+    private Long disacount;
+    private Long payMoney;
+    private String payType;
+    private String paymentType;
+    private Integer payStatus;
+    private Integer exceptionType;
+    private String lockUserNo;
+    private String flowCode;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderId")
+    private List<GoodsInfo> goodsInfos;
 }
